@@ -16,8 +16,43 @@ export default function Form() {
         name: '',
         email: '',
         password: '',
-        terms: '',
+        terms: ''
     })
+
+    const [errors, setErrors] = useState({
+        name: '',
+        email: '',
+        password: '',
+        terms: ''
+    })
+
+    const [buttonDisabled, setButtonDisabled] = useState(true);
+
+    const [post, setPost] = useState([]);
+
+    const validation = event => {
+        yup.reach(formSchema, event.target.name)
+        .validate(event.target.value)
+        .then(valid => {
+            setErrors({
+                ...errors, [event.target.name]: ""
+            });
+        })
+        .catch(err => {
+            setErrors({
+                ...errors, [event.target.name]: err.errors[0]
+            })
+        })
+    }
+
+    const inputChange = event => {
+        event.persist();
+        const newFormData = {
+            ...formState, [event.target.name]: event.target.type === "checkbox" ? event.target.checked : event.target.value
+        }
+        validation(event);
+        setFormState(newFormData);
+    }
 
     return (
         <form>
@@ -27,7 +62,10 @@ export default function Form() {
                     id = "name"
                     type = "text"
                     name = "name"
+                    value = {formState.name}
+                    onChange = {inputChange}
                 />
+                {errors.name.length > 0 ? (<p className="error">{errors.name}</p>) : null}
             </label><br />
 
             <label htmlFor = "email">
@@ -36,7 +74,10 @@ export default function Form() {
                     id = "email"
                     type = "email"
                     name = "email"
+                    value = {formState.email}
+                    onChange = {inputChange}
                 />
+                {errors.email.length > 0 ? (<p className="error">{errors.email}</p>) : null}
             </label><br />
 
             <label htmlFor = "password">
@@ -45,7 +86,10 @@ export default function Form() {
                     id = "password"
                     type = "password"
                     name = "password"
+                    value = {formState.password}
+                    onChange = {inputChange}
                 />
+                {errors.password.length > 0 ? (<p className="error">{errors.password}</p>) : null}
             </label><br />
 
             <label htmlFor = "terms">
@@ -53,6 +97,8 @@ export default function Form() {
                     id = "terms"
                     type = "checkbox"
                     name = "terms"
+                    checked = {formState.terms}
+                    onChange = {inputChange}
                 />
                 Terms and Conditions
             </label><br />
