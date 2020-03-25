@@ -54,6 +54,15 @@ export default function Form() {
         setFormState(newFormData);
     }
 
+    const submitForm = event => {
+        event.preventDefault();
+        axios.post('https://reqres.in/')
+        .then(response => {
+            setPost(response.data);
+            console.log("success!", post)
+        })
+    }
+
     return (
         <form>
             <label htmlFor = "name">
