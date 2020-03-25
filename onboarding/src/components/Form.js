@@ -7,6 +7,7 @@ const formSchema = yup.object().shape({
     name: yup.string().required("Please enter your name!"),
     email: yup.string().email().required("Please include and email so we can contact you!"),
     password: yup.string().required("If you don't include a password, you can't log in!"),
+    role: yup.string().required("Please select a role, hero!"),
     terms: yup.boolean().oneOf([true], "Please agree to the terms of use")
 })
 
@@ -16,6 +17,7 @@ export default function Form() {
         name: '',
         email: '',
         password: '',
+        role: '',
         terms: ''
     })
 
@@ -23,6 +25,7 @@ export default function Form() {
         name: '',
         email: '',
         password: '',
+        role: '',
         terms: ''
     })
 
@@ -70,6 +73,7 @@ export default function Form() {
                 name: '',
                 email: '',
                 password: '',
+                role: '',
                 terms: ''
             })
         }).catch(err => {
@@ -116,6 +120,16 @@ export default function Form() {
                 />
                 {errors.password.length > 0 ? (<p className="error">{errors.password}</p>) : null}
             </label><br />
+
+            <label htmlFor = "role">
+                Role:
+                <select id = "role" type = "select" name="role" value = {formState.role} onChange={inputChange}>
+                    <option>Rogue</option>
+                    <option>Warrior</option>
+                    <option>Mage</option>
+                    <option>Druid</option>
+                </select>
+            </label>
 
             <label htmlFor = "terms">
                 <input 
