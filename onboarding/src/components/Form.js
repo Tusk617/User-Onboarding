@@ -2,13 +2,21 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import * as yup from 'yup';
 
+
+const formSchema = yup.object().shape({
+    name: yup.string().required("Please enter your name!"),
+    email: yup.string().email().required("Please include and email so we can contact you!"),
+    password: yup.string().required("If you don't include a password, you can't log in!"),
+    terms: yup.boolean().oneOf([true], "Please agree to the terms of use")
+})
+
 export default function Form() {
     
     const [formState, setFormState] = useState ({
         name: '',
         email: '',
         password: '',
-        termsOfService: '',
+        terms: '',
     })
 
     return (
@@ -26,7 +34,7 @@ export default function Form() {
                 Email:
                 <input 
                     id = "email"
-                    type = "text"
+                    type = "email"
                     name = "email"
                 />
             </label><br />
@@ -35,7 +43,7 @@ export default function Form() {
                 Password:
                 <input 
                     id = "password"
-                    type = "text"
+                    type = "password"
                     name = "password"
                 />
             </label><br />
