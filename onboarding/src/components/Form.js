@@ -30,6 +30,8 @@ export default function Form() {
 
     const [post, setPost] = useState([]);
 
+    const [users, setUsers] = useState([]);
+
     const validation = event => {
         yup.reach(formSchema, event.target.name)
         .validate(event.target.value)
@@ -56,15 +58,29 @@ export default function Form() {
 
     const submitForm = event => {
         event.preventDefault();
-        axios.post('https://reqres.in/')
+        console.log("sending data...")
+        axios.post('https://reqres.in/api/users', formState)
         .then(response => {
             setPost(response.data);
-            console.log("success!", post)
+            console.log("success!", formState)
+
+            setUsers(post)
+
+            setFormState({
+                name: '',
+                email: '',
+                password: '',
+                terms: ''
+            })
+        }).catch(err => {
+            console.log(err.res);
         })
+        // console.log(post);
     }
+    
 
     return (
-        <form>
+        <form onSubmit={submitForm}>
             <label htmlFor = "name">
                 Name:
                 <input 
@@ -111,7 +127,7 @@ export default function Form() {
                 />
                 Terms and Conditions
             </label><br />
-
+            <pre>{JSON.stringify(post, null, 2)}</pre>
             <button>Submit</button>
         </form>
     )
