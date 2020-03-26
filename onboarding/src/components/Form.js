@@ -142,7 +142,7 @@ export default function Form() {
                 Terms and Conditions
             </label><br />
             <pre>{JSON.stringify(post, null, 2)}</pre>
-            <button>Submit</button>
+            <button id="submitButton">Submit</button>
         </form>
     )
 }

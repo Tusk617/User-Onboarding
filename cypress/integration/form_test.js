@@ -17,5 +17,6 @@ describe("Testing our inputs and submitting our form", function() {
             .should("have.value", "Mage");
         cy.get("input[name='terms']").check()
             .should("be.checked");
+        cy.get('#submitButton').click();
     })
 })
